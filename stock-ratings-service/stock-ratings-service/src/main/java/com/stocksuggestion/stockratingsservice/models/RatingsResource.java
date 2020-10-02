@@ -1,5 +1,8 @@
 package com.stocksuggestion.stockratingsservice.models;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,5 +18,15 @@ public class RatingsResource {
 		return new Rating(001, 10);
 	}
 	
+	@RequestMapping("/sectors/{sectorId}")
+	public SectorRating getRecommendedStocksForUser(@PathVariable("sectorId") int userId){		
+		List<Rating> ratings =  Arrays.asList(
+		new Rating(001,10),
+		new Rating(002,8));
+	
+	    SectorRating sectorRating = new SectorRating();
+	    sectorRating.setSectorRating(ratings);
+	    return sectorRating;
+	}
 
 }

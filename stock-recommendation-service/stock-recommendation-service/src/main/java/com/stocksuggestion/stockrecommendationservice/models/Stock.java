@@ -1,9 +1,13 @@
-package com.stocksuggestion.stockinfoservice.models;
+package com.stocksuggestion.stockrecommendationservice.models;
 
 public class Stock {
 	
 	private int stockId;
 	private String name;
+	
+	
+	public Stock() {	
+	}
 	
 	public Stock(int stockId, String name) {
 		//super();

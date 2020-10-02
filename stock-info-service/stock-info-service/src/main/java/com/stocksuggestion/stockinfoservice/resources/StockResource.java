@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stocksuggestion.stockinfoservice.models.Stock;
 
+
+
 @RestController
 @RequestMapping("/stock")
 public class StockResource {

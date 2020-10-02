@@ -5,6 +5,8 @@ public class Rating {
 	private int stockId;
 	private int rating;
 		
+	public Rating() {};
+	
 	public Rating(int stockId, int rating) {
 		super();
 		this.stockId = stockId;
