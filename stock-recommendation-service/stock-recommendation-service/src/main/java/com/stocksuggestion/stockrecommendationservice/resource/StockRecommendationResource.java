@@ -27,11 +27,11 @@ public class StockRecommendationResource {
 	@RequestMapping("/{sectorId}")
 	public List<RecommendedItem> getRecommended(@PathVariable("sectorId") String sectorId){
 					
-		SectorRating sectorRating = restTemplate.getForObject("http://localhost:8082/ratings/sectors/" + sectorId, SectorRating.class);
+		SectorRating sectorRating = restTemplate.getForObject("http://stock-ratings-service/ratings/sectors/" + sectorId, SectorRating.class);
 				
 		return sectorRating.getSectorRating().stream().map(rating-> {		
 		
-			    Stock stock = restTemplate.getForObject("http://localhost:8081/stock/" + rating.getStockId(), Stock.class);
+			    Stock stock = restTemplate.getForObject("http://stock-info-service/stock/" + rating.getStockId(), Stock.class);
 			
 				return new RecommendedItem(stock.getId(), stock.getName(),"Auto", rating.getRating());
 				
