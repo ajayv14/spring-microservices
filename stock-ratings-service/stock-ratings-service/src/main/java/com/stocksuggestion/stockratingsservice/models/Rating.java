@@ -1,4 +1,4 @@
-package com.stocksuggestion.stockratingsservice.resources;
+package com.stocksuggestion.stockratingsservice.models;
 
 public class Rating {
 	

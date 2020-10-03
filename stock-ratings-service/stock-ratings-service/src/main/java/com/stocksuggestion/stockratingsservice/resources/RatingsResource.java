@@ -1,4 +1,4 @@
-package com.stocksuggestion.stockratingsservice.models;
+package com.stocksuggestion.stockratingsservice.resources;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stocksuggestion.stockratingsservice.resources.Rating;
+import com.stocksuggestion.stockratingsservice.models.Rating;
+import com.stocksuggestion.stockratingsservice.models.SectorRating;
 
 @RestController
 @RequestMapping("/ratings")

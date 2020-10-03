@@ -2,8 +2,6 @@ package com.stocksuggestion.stockratingsservice.models;
 
 import java.util.List;
 
-import com.stocksuggestion.stockratingsservice.resources.Rating;
-
 public class SectorRating {
 	
 	public SectorRating() {};
