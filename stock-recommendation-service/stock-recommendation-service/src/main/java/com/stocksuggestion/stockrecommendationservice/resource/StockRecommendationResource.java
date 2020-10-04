@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.stocksuggestion.stockrecommendationservice.models.Rating;
 import com.stocksuggestion.stockrecommendationservice.models.RecommendedItem;
 import com.stocksuggestion.stockrecommendationservice.models.SectorRating;
@@ -24,6 +25,7 @@ public class StockRecommendationResource {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@HystrixCommand(fallbackMethod = "getFallbackRecommended")
 	@RequestMapping("/{sectorId}")
 	public List<RecommendedItem> getRecommended(@PathVariable("sectorId") String sectorId){
 					
@@ -47,4 +49,10 @@ public class StockRecommendationResource {
 	
 	
 	
-}
+	public List<RecommendedItem> getFallbackRecommended(@PathVariable("sectorId") String sectorId){
+		
+		return Arrays.asList(new RecommendedItem(000, "no stock recommendation available","N/A", 0));			
+	}
+	
+	
+} 
