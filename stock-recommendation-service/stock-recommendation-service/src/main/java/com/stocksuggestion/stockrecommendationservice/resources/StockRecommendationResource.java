@@ -1,4 +1,4 @@
-package com.stocksuggestion.stockrecommendationservice.resource;
+package com.stocksuggestion.stockrecommendationservice.resources;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -17,23 +18,28 @@ import com.stocksuggestion.stockrecommendationservice.models.Rating;
 import com.stocksuggestion.stockrecommendationservice.models.RecommendedItem;
 import com.stocksuggestion.stockrecommendationservice.models.SectorRating;
 import com.stocksuggestion.stockrecommendationservice.models.Stock;
+import com.stocksuggestion.stockrecommendationservice.services.SectorRatingInfo;
+import com.stocksuggestion.stockrecommendationservice.services.StockInfo;
 
 @RestController
 @RequestMapping("/recommendation")
 public class StockRecommendationResource {
+			
+	@Autowired
+	private StockInfo stockInfo;
 	
 	@Autowired
-	private RestTemplate restTemplate;
+	private SectorRatingInfo sectorRatingInfo;
 	
-	@HystrixCommand(fallbackMethod = "getFallbackRecommended")
+	//@HystrixCommand(fallbackMethod = "getFallbackRecommended")
 	@RequestMapping("/{sectorId}")
 	public List<RecommendedItem> getRecommended(@PathVariable("sectorId") String sectorId){
 					
-		SectorRating sectorRating = restTemplate.getForObject("http://stock-ratings-service/ratings/sectors/" + sectorId, SectorRating.class);
+		SectorRating sectorRating = sectorRatingInfo.getRatings(sectorId);
 				
 		return sectorRating.getSectorRating().stream().map(rating-> {		
 		
-			    Stock stock = restTemplate.getForObject("http://stock-info-service/stock/" + rating.getStockId(), Stock.class);
+			    Stock stock = stockInfo.getStockInfo(rating);
 			
 				return new RecommendedItem(stock.getId(), stock.getName(),"Auto", rating.getRating());
 				
@@ -47,11 +53,12 @@ public class StockRecommendationResource {
 				);*/
 	}
 	
-	
-	
+	/**
+	 * @param sectorId
+	 * @return
+	 */	
 	public List<RecommendedItem> getFallbackRecommended(@PathVariable("sectorId") String sectorId){
-		
-		return Arrays.asList(new RecommendedItem(000, "no stock recommendation available","N/A", 0));			
+			return Arrays.asList(new RecommendedItem(000, "no stock recommendation available","N/A", 0));			
 	}
 	
 	
